@@ -1,0 +1,74 @@
+<project name="SFTP_Utility" default="jar-pkg" basedir=".">
+    <property name="version"  value="1.0" />
+	<property name="project.home" value="." />
+	<property name="app.name" value="SFTP_Utility" />
+	<property name="jarfile.name" value="sftp_utility" />
+	<property name="lib.dir" value="${project.home}/lib" />
+	<property name="build.dir" value="${project.home}/build" />
+	<property name="build.src.dir" value="${project.home}/src" />
+	<property name="jar.dir" value="${project.home}/jar" />
+	
+	<path id="SFTP_Utility.CLASSPATH">
+		<fileset dir="${lib.dir}">
+					<include name="**/*.jar" />
+		</fileset>
+	</path>
+	
+	<target name="clean" description="delete all files and directories under build" >
+		     <delete dir="${build.dir}" />
+	 	     <delete dir="${jar.dir}"/>
+	</target>
+	
+	
+	<target name="init" depends="clean" description="create build directories">
+		      <mkdir dir="${build.dir}" />
+		      <mkdir dir="${jar.dir}" />
+    </target> 
+	
+	
+	<target name="compile-src" depends="init" description="compiles the biz source files">
+		<javac destdir="${build.dir}" debug="true" classpathref="SFTP_Utility.CLASSPATH">
+		  <src path="${build.src.dir}" />
+		  	<include name="**/*.java"/>
+		</javac>
+		
+	<!--		
+		<copy todir="${build.dir}">
+		  <fileset dir="${build.src.dir}">
+		      	<exclude name="**/**.java"/>
+		       	<include name="**/**.properties"/>
+		  		<include name="**/**.prop"/>
+		       	<exclude name="**/**.xml"/>
+		  		<exclude name="**/log4j.properties"/>
+    	  </fileset>	
+	    </copy>
+	  -->     
+	</target>
+	
+	 <target name="jar-pkg" depends="compile-src" description="creates the jar file">
+	        <jar  jarfile="${jar.dir}/${jarfile.name}.jar" basedir="${build.dir}">
+	        	<manifest>
+	        	      <!-- Who is building this jar? -->
+	        	      <attribute name="Built-By" value="Posidex Technologies Pvt Ltd."/>
+	        		<!-- What is the main class for this jar? -->
+	        			<attribute name="Main-Class" value="com.posidex.im.controller.JMSConsumer"/>
+	        		  <!-- Information about the program itself -->
+	        		<!--
+	        	      <attribute name="Implementation-Vendor" value="Posidex Technologies Pvt Ltd."/>
+	        	      <attribute name="Implementation-Title" value="BPMService"/>
+	        	      <attribute name="Implementation-Version" value="1.2"/>
+	        		  <attribute name="Sealed" value="true"/>
+	        	     -->
+	        	      <!-- details -->
+	        		<!--
+	        	      <section name="common/class1.class">
+	        	        <attribute name="Sealed" value="false"/>
+	        	      </section>
+	        	     --> 
+	        	 </manifest>
+	    	</jar>
+	    	
+	    </target>
+			
+   
+</project>
